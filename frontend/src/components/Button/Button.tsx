@@ -8,7 +8,7 @@ type Props = ButtonProps & {
 
 export function ButtonCustom({ children, ...props }: Props): JSX.Element {
   return (
-    <Button {...props} borderRadius="none">
+    <Button borderRadius="none" fontSize={["sm", "md"]} {...props}>
       {children}
     </Button>
   );

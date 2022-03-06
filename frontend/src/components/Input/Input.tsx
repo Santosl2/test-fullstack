@@ -1,6 +1,7 @@
+/* eslint-disable react/prop-types */
 /* eslint-disable react/require-default-props */
 /* eslint-disable react/jsx-props-no-spreading */
-import { useState } from "react";
+import { forwardRef, LegacyRef, useState } from "react";
 import { AiOutlineEyeInvisible, AiOutlineEye } from "react-icons/ai";
 
 import {
@@ -14,28 +15,25 @@ import {
 } from "@chakra-ui/react";
 
 type Props = InputProps & {
-  labelName?: string;
-  iconLeft: React.ReactNode;
-  iconRight?: React.ReactNode;
+  labelname?: string;
+  iconleft: React.ReactNode;
+  iconright?: React.ReactNode;
 };
 
-export function InputCustom({
-  iconLeft,
-  iconRight,
-  labelName,
-  ...props
-}: Props): JSX.Element {
+export const InputCustom = forwardRef<Props, Props>((props, ref) => {
   const [type, setType] = useState(props.type || "text");
 
   return (
     <Stack alignItems="flex-start">
-      {labelName && (
+      {props.labelname && (
         <Text fontSize="sm" fontWeight="bold">
-          <label htmlFor={props.id}>{labelName}</label>
+          <label htmlFor={props.id}>{props.labelname}</label>
         </Text>
       )}
       <InputGroup>
-        <InputLeftElement pointerEvents="none">{iconLeft}</InputLeftElement>
+        <InputLeftElement pointerEvents="none">
+          {props.iconleft}
+        </InputLeftElement>
         <Input
           {...props}
           type={type}
@@ -45,9 +43,12 @@ export function InputCustom({
           _hover={{ background: "#1e2636" }}
           fontSize="sm"
           fontWeight="bold"
+          ref={ref as LegacyRef<HTMLInputElement>}
         />
-        {iconRight && props.type !== "password" && (
-          <InputRightElement pointerEvents="none">{iconLeft}</InputRightElement>
+        {props.iconright && props.type !== "password" && (
+          <InputRightElement pointerEvents="none">
+            {props.iconright}
+          </InputRightElement>
         )}
         {props.type === "password" && (
           <InputRightElement
@@ -64,4 +65,4 @@ export function InputCustom({
       </InputGroup>
     </Stack>
   );
-}
+});

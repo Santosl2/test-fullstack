@@ -51,17 +51,18 @@ export function Header() {
           color="white"
           cursor="pointer"
         >
-          <Box fontFamily="Lato" fontSize={24}>
+          <Box fontFamily="Lato" fontSize={["md", "sm", "lg", "xl"]}>
             eCards
           </Box>
         </HStack>
 
         <HStack as="nav" spacing={4} display="flex" color="white">
-          <BiWorld size={24} />
+          <BiWorld size={16} />
           <ButtonCustom
             variant="ghost"
             border="1px solid"
             borderColor="gray.600"
+            w={["7rem", "8rem"]}
             _hover={{ background: "gray.600" }}
           >
             Fazer login
