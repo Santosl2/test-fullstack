@@ -22,9 +22,7 @@ export function Header() {
           color="white"
           cursor="pointer"
         >
-          <Box fontFamily="Lato" fontSize={["md", "sm", "lg", "xl"]}>
-            eCards
-          </Box>
+          <Box fontSize={["md", "sm", "lg", "xl"]}>eCards</Box>
         </HStack>
 
         <HStack as="nav" spacing={4} display="flex" color="white">
