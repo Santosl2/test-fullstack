@@ -1,3 +1,16 @@
+# O que foi usado neste projeto:
+
+    - Typescript
+    - React JS
+    - Next JS
+    - Chakra UI
+    - Node JS
+    - Typeorm
+    - Testes automatizados com Jest (apenas no backend)
+    - Postgres
+    - Express
+    - Axios
+
 # Como usar
 
 Primeiramente, é necessário que você tenha o Postgres instalado.
