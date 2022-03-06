@@ -33,5 +33,6 @@ Agora acesse a pasta frontend e backend e rode o comando `yarn install`
 
 Após a instalação das dependências, vá até a pasta raiz (sem que seja a frontend e backend) e rode os seguintes comandos:
 
+- `yarn migration`
 - `yarn back:start`
 - `yarn front:start`
