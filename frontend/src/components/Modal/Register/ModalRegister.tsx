@@ -1,6 +1,8 @@
+/* eslint-disable import/no-unresolved */
 import { AiOutlineUser } from "react-icons/ai";
 import { FaDiscord } from "react-icons/fa";
 import { FcGoogle } from "react-icons/fc";
+import { RiLockPasswordLine } from "react-icons/ri";
 import { SiTwitch } from "react-icons/si";
 
 import {
@@ -18,8 +20,9 @@ import {
   Divider,
 } from "@chakra-ui/react";
 
-import { ButtonCustom } from "../../Button";
-import { InputCustom } from "../../Input";
+import { ButtonCustom } from "@/components/Button";
+import { EmailIcon, LoginIcon } from "@/components/Icons";
+import { InputCustom } from "@/components/Input";
 
 export function ModalRegister(): JSX.Element {
   const { isOpen, onClose, onOpen } = useDisclosure();
@@ -111,14 +114,14 @@ export function ModalRegister(): JSX.Element {
                 labelName="E-mail"
                 id="email"
                 type="email"
-                iconLeft={<AiOutlineUser />}
+                iconLeft={<EmailIcon />}
                 placeholder="Digite o seu nome de e-mail"
               />
               <InputCustom
                 labelName="Senha"
                 id="password"
                 type="password"
-                iconLeft={<AiOutlineUser />}
+                iconLeft={<RiLockPasswordLine />}
                 placeholder="Digite a sua senha"
               />
             </Stack>
@@ -129,7 +132,7 @@ export function ModalRegister(): JSX.Element {
               onClick={onClose}
               background="white"
               _hover={{ background: "gray.300" }}
-              rightIcon={<FaDiscord />}
+              rightIcon={<LoginIcon />}
               isFullWidth
             >
               Comece agora
