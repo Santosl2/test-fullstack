@@ -52,7 +52,7 @@ module.exports = {
       },
     ],
 
-    "import/no-unresolved": [2, { commonjs: true, caseSensitive: false }],
+    "import/no-unresolved": [0, { commonjs: true, caseSensitive: false }],
     "@typescript-eslint/no-unused-vars": "off", // or "@typescript-eslint/no-unused-vars": "off",
     "unused-imports/no-unused-imports": "error",
     "unused-imports/no-unused-vars": [

@@ -3,7 +3,6 @@
 /* eslint-disable import/no-unresolved */
 import { useCallback, useState } from "react";
 import { useForm } from "react-hook-form";
-import { AiOutlineUser } from "react-icons/ai";
 import { FaDiscord } from "react-icons/fa";
 import { FcGoogle } from "react-icons/fc";
 import { RiLockPasswordLine } from "react-icons/ri";
@@ -25,42 +24,33 @@ import {
   useBreakpointValue,
   FormControl,
   FormErrorMessage,
-  useToast,
 } from "@chakra-ui/react";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 
 import { ButtonCustom } from "@/components/Button";
-import { EmailIcon, LoginIcon } from "@/components/Icons";
+import { EmailIcon } from "@/components/Icons";
 import { InputCustom } from "@/components/Input";
-import { api } from "@/services/api";
+import { useAuth } from "@/hooks/useAuth";
 
 type IFormProps = {
   email: string;
   password: string;
-  name: string;
-};
-
-type IFormResponse = {
-  status: string;
-  message: string;
-  id?: string;
 };
 
 type IFormKeys = keyof IFormProps;
 
 const schema = yup
   .object({
-    name: yup.string().min(6).max(32).required(),
     email: yup.string().email().min(6).max(40).required(),
     password: yup.string().min(6).max(40).required(),
   })
   .required();
 
-export function ModalRegister(): JSX.Element {
+export function ModalLogin(): JSX.Element {
   const { isOpen, onClose, onOpen } = useDisclosure();
   const [isLoading, setIsLoading] = useState(false);
-  const toast = useToast();
+  const { signIn } = useAuth();
 
   const {
     register,
@@ -73,48 +63,10 @@ export function ModalRegister(): JSX.Element {
 
   const onSubmit = async (data: IFormProps) => {
     setIsLoading(true);
-    try {
-      const response = await api.post<IFormResponse>("users", data);
-      const { data: responseData } = response;
 
-      if (responseData.status === "error") {
-        toast({
-          title: "Oops, tivemos um pequeno error",
-          description: responseData.message,
-          status: "error",
-          duration: 9000,
-          variant: "left-accent",
-          position: "bottom-right",
-          isClosable: true,
-        });
-
-        return;
-      }
-
-      toast({
-        title: "Sucesso!",
-        description: "Sua conta foi criada com sucesso! Logue-se agora mesmo ",
-        status: "success",
-        duration: 9000,
-        variant: "left-accent",
-        position: "bottom-right",
-        isClosable: true,
-      });
-
-      reset();
-    } catch {
-      toast({
-        title: "Oops, tivemos um pequeno error",
-        description: "Erro interno no servidor",
-        status: "error",
-        duration: 9000,
-        variant: "left-accent",
-        position: "bottom-right",
-        isClosable: true,
-      });
-    } finally {
+    signIn(data).finally(() => {
       setIsLoading(false);
-    }
+    });
   };
 
   const hasError = useCallback(
@@ -129,14 +81,14 @@ export function ModalRegister(): JSX.Element {
   return (
     <>
       <ButtonCustom
-        variant="solid"
-        color="black"
-        bg="white"
-        _hover={{ background: "gray.400" }}
-        onClick={onOpen}
+        variant="ghost"
+        border="1px solid"
+        borderColor="gray.600"
         w={["7rem", "8rem"]}
+        _hover={{ background: "gray.600" }}
+        onClick={onOpen}
       >
-        Comece agora
+        Fazer login
       </ButtonCustom>
 
       <Modal
@@ -148,7 +100,7 @@ export function ModalRegister(): JSX.Element {
         <ModalOverlay />
         <ModalContent background="gray.800" borderRadius="0">
           <ModalHeader borderBottom="1px solid" borderColor="gray.500">
-            Criar conta
+            Fazer Login
           </ModalHeader>
           <ModalCloseButton
             background="white"
@@ -167,7 +119,7 @@ export function ModalRegister(): JSX.Element {
             onSubmit={handleSubmit(onSubmit)}
           >
             <Text fontSize="sm" marginBottom="3rem">
-              Já possui uma conta? <strong>Entrar agora</strong>
+              Não possui uma conta? <strong>Cadastre-se agora</strong>
             </Text>
             <Stack width="100%" gap="5px" mb="1rem">
               <ButtonCustom
@@ -176,7 +128,7 @@ export function ModalRegister(): JSX.Element {
                 color="gray.900"
                 _hover={{ background: "gray.300" }}
               >
-                Cadastre-se com Google
+                Entrar com Google
               </ButtonCustom>
 
               <ButtonCustom
@@ -184,7 +136,7 @@ export function ModalRegister(): JSX.Element {
                 background="#4a5c82"
                 _hover={{ background: "#3d4d6e" }}
               >
-                Cadastre-se com Discord
+                Entrar com Discord
               </ButtonCustom>
 
               <ButtonCustom
@@ -192,7 +144,7 @@ export function ModalRegister(): JSX.Element {
                 background="#252e41"
                 _hover={{ background: "#202738" }}
               >
-                Cadastre-se com Twitch
+                Entrar com Twitch
               </ButtonCustom>
             </Stack>
             <HStack gap="1rem">
@@ -202,19 +154,6 @@ export function ModalRegister(): JSX.Element {
             </HStack>
 
             <Stack width="100%" gap="5px" mb="2.2rem" mt="1rem">
-              <FormControl isInvalid={hasError("name")}>
-                <InputCustom
-                  labelname="Nome do Usuário"
-                  id="name"
-                  iconleft={<AiOutlineUser />}
-                  placeholder="Digite o seu nome de usuário"
-                  {...register("name")}
-                />
-                {errors.name && (
-                  <FormErrorMessage>{errors.name.message}</FormErrorMessage>
-                )}
-              </FormControl>
-
               <FormControl isInvalid={hasError("email")}>
                 <InputCustom
                   labelname="E-mail"
@@ -251,16 +190,19 @@ export function ModalRegister(): JSX.Element {
               type="submit"
               background="white"
               _hover={{ background: "gray.300" }}
-              rightIcon={<LoginIcon />}
               isLoading={isLoading}
               isFullWidth
             >
-              Comece agora
+              Entrar
             </ButtonCustom>
-            <Text fontSize="xs" maxW="70%" margin="0 auto" color="gray.500">
-              Ao clicar em "Comece agora", você concorda com os{" "}
-              <u>Termos de uso</u> e a <u>Política de privacidade</u> do
-              E-cards.
+            <Text
+              fontSize="xs"
+              maxW="70%"
+              margin="0 auto"
+              color="gray.100"
+              fontWeight="bold"
+            >
+              Esqueceu sua senha?
             </Text>
           </ModalBody>
 
