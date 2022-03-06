@@ -2,10 +2,12 @@
 /* eslint-disable consistent-return */
 /* eslint-disable @typescript-eslint/no-empty-function */
 import { useEffect, useState } from "react";
+import { BiWorld } from "react-icons/bi";
 
 import { Box, Flex, HStack } from "@chakra-ui/react";
 
-import { ButtonCustom } from "..";
+import { ButtonCustom } from "../Button";
+import { ModalRegister } from "../Modal";
 
 export function Header() {
   const [isFixed, setIsFixed] = useState(false);
@@ -55,8 +57,16 @@ export function Header() {
         </HStack>
 
         <HStack as="nav" spacing={4} display="flex" color="white">
-          <ButtonCustom variant="solid">fff</ButtonCustom>
-          <ButtonCustom variant="ghost">fff</ButtonCustom>
+          <BiWorld size={24} />
+          <ButtonCustom
+            variant="ghost"
+            border="1px solid"
+            borderColor="gray.600"
+            _hover={{ background: "gray.600" }}
+          >
+            Fazer login
+          </ButtonCustom>
+          <ModalRegister />
         </HStack>
       </Flex>
     </Box>
