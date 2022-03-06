@@ -46,13 +46,13 @@ module.exports = {
 
     "import/extensions": [
       "error",
-      "ignorePackages",
       {
         ts: "never",
         tsx: "never",
       },
     ],
-    "import/no-unresolved": [2, { caseSensitive: false }],
+
+    "import/no-unresolved": [2, { commonjs: true, caseSensitive: false }],
     "@typescript-eslint/no-unused-vars": "off", // or "@typescript-eslint/no-unused-vars": "off",
     "unused-imports/no-unused-imports": "error",
     "unused-imports/no-unused-vars": [
@@ -69,7 +69,7 @@ module.exports = {
       {
         // example configuration
         newlinesBetween: "always", // new line between groups
-        groups: ["/^react/", "module", "/^@/", ["parent", "sibling", "index"]],
+        groups: ["/^react/", "module", "/^@//", ["parent", "sibling", "index"]],
         alphabetize: { order: "asc", ignoreCase: true },
       },
     ],
