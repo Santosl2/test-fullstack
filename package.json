@@ -1,0 +1,7 @@
+{
+  "scripts": {
+    "front:start": "yarn --cwd ./frontend run dev",
+    "back:start": "yarn --cwd ./backend run dev:server",
+    "migration": "yarn --cwd ./backend run typeorm migration:run"
+  }
+}
