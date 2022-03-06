@@ -10,6 +10,8 @@
     - Postgres
     - Express
     - Axios
+    - React-hook-form
+    - Yup
 
 # Como usar
 
