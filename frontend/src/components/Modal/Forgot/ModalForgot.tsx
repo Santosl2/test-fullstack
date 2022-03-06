@@ -1,12 +1,7 @@
 /* eslint-disable react/jsx-props-no-spreading */
 /* eslint-disable react/no-unescaped-entities */
 /* eslint-disable import/no-unresolved */
-import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { FaDiscord } from "react-icons/fa";
-import { FcGoogle } from "react-icons/fc";
-import { RiLockPasswordLine } from "react-icons/ri";
-import { SiTwitch } from "react-icons/si";
 
 import {
   Modal,
@@ -19,8 +14,6 @@ import {
   useDisclosure,
   Text,
   Stack,
-  HStack,
-  Divider,
   useBreakpointValue,
   FormControl,
   FormErrorMessage,
@@ -32,13 +25,9 @@ import { ButtonCustom } from "@/components/Button";
 import { EmailIcon } from "@/components/Icons";
 import { InputCustom } from "@/components/Input";
 import { hasError } from "@/helpers/HasError";
-import { useAuth } from "@/hooks/useAuth";
-
-import { ModalForgot } from "../Forgot";
 
 type IFormProps = {
   email: string;
-  password: string;
 };
 
 type IFormKeys = keyof IFormProps;
@@ -46,55 +35,52 @@ type IFormKeys = keyof IFormProps;
 const schema = yup
   .object({
     email: yup.string().email().min(6).max(40).required(),
-    password: yup.string().min(6).max(40).required(),
   })
   .required();
 
-export function ModalLogin(): JSX.Element {
+export function ModalForgot(): JSX.Element {
   const { isOpen, onClose, onOpen } = useDisclosure();
-  const [isLoading, setIsLoading] = useState(false);
-  const { signIn } = useAuth();
 
   const {
     register,
     handleSubmit,
-    reset,
     formState: { errors },
   } = useForm<IFormProps>({
     resolver: yupResolver(schema),
   });
 
   const onSubmit = async (data: IFormProps) => {
-    setIsLoading(true);
-
-    signIn(data).finally(() => {
-      setIsLoading(false);
-    });
+    alert("Opa...");
   };
 
   return (
     <>
-      <ButtonCustom
-        variant="ghost"
-        border="1px solid"
-        borderColor="gray.600"
-        w={["7rem", "8rem"]}
-        _hover={{ background: "gray.600" }}
+      <Text
+        fontSize="xs"
+        maxW="70%"
+        margin="0 auto"
+        color="gray.100"
+        cursor="pointer"
+        fontWeight="bold"
         onClick={onOpen}
       >
-        Fazer login
-      </ButtonCustom>
+        Esqueceu sua senha?
+      </Text>
 
       <Modal
         isOpen={isOpen}
         onClose={onClose}
         size={useBreakpointValue({ base: "xs", md: "lg" })}
         motionPreset="slideInBottom"
+        isCentered
       >
-        <ModalOverlay />
+        <ModalOverlay
+          bg="blackAlpha.300"
+          backdropFilter="blur(10px) hue-rotate(90deg)"
+        />
         <ModalContent background="gray.800" borderRadius="0">
           <ModalHeader borderBottom="1px solid" borderColor="gray.500">
-            Fazer Login
+            Esqueceu sua senha?
           </ModalHeader>
           <ModalCloseButton
             background="white"
@@ -112,40 +98,9 @@ export function ModalLogin(): JSX.Element {
             autoComplete="off"
             onSubmit={handleSubmit(onSubmit)}
           >
-            <Text fontSize="sm" marginBottom="3rem">
-              Não possui uma conta? <strong>Cadastre-se agora</strong>
+            <Text fontSize="sm" onClick={onClose} cursor="pointer">
+              Lembra da sua senha? <strong>Entrar agora</strong>
             </Text>
-            <Stack width="100%" gap="5px" mb="1rem">
-              <ButtonCustom
-                leftIcon={<FcGoogle />}
-                background="gray.100"
-                color="gray.900"
-                _hover={{ background: "gray.300" }}
-              >
-                Entrar com Google
-              </ButtonCustom>
-
-              <ButtonCustom
-                leftIcon={<FaDiscord />}
-                background="#4a5c82"
-                _hover={{ background: "#3d4d6e" }}
-              >
-                Entrar com Discord
-              </ButtonCustom>
-
-              <ButtonCustom
-                leftIcon={<SiTwitch />}
-                background="#252e41"
-                _hover={{ background: "#202738" }}
-              >
-                Entrar com Twitch
-              </ButtonCustom>
-            </Stack>
-            <HStack gap="1rem">
-              <Divider />
-              <Text fontSize="sm">Ou</Text>
-              <Divider marginLeft="1rem" />
-            </HStack>
 
             <Stack width="100%" gap="5px" mb="2.2rem" mt="1rem">
               <FormControl isInvalid={hasError<IFormKeys>("email", errors)}>
@@ -161,20 +116,6 @@ export function ModalLogin(): JSX.Element {
                   <FormErrorMessage>{errors.email.message}</FormErrorMessage>
                 )}
               </FormControl>
-
-              <FormControl isInvalid={hasError<IFormKeys>("password", errors)}>
-                <InputCustom
-                  labelname="Senha"
-                  id="password"
-                  type="password"
-                  iconleft={<RiLockPasswordLine />}
-                  placeholder="Digite a sua senha"
-                  {...register("password")}
-                />
-                {errors.password && (
-                  <FormErrorMessage>{errors.password.message}</FormErrorMessage>
-                )}
-              </FormControl>
             </Stack>
 
             <ButtonCustom
@@ -184,12 +125,19 @@ export function ModalLogin(): JSX.Element {
               type="submit"
               background="white"
               _hover={{ background: "gray.300" }}
-              isLoading={isLoading}
               isFullWidth
             >
               Entrar
             </ButtonCustom>
-            <ModalForgot />
+            <Text
+              fontSize="xs"
+              maxW="70%"
+              margin="0 auto"
+              color="gray.100"
+              fontWeight="bold"
+            >
+              Esqueceu sua senha?
+            </Text>
           </ModalBody>
 
           <ModalFooter />

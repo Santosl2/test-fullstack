@@ -1,7 +1,7 @@
 /* eslint-disable react/jsx-props-no-spreading */
 /* eslint-disable react/no-unescaped-entities */
 /* eslint-disable import/no-unresolved */
-import { useCallback, useState } from "react";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { AiOutlineUser } from "react-icons/ai";
 import { FaDiscord } from "react-icons/fa";
@@ -33,6 +33,7 @@ import * as yup from "yup";
 import { ButtonCustom } from "@/components/Button";
 import { EmailIcon, LoginIcon } from "@/components/Icons";
 import { InputCustom } from "@/components/Input";
+import { hasError } from "@/helpers/HasError";
 import { api } from "@/services/api";
 
 type IFormProps = {
@@ -117,15 +118,6 @@ export function ModalRegister(): JSX.Element {
     }
   };
 
-  const hasError = useCallback(
-    (input: IFormKeys): boolean => {
-      const message = errors[input]?.message;
-
-      return !!message;
-    },
-    [errors]
-  );
-
   return (
     <>
       <ButtonCustom
@@ -202,7 +194,7 @@ export function ModalRegister(): JSX.Element {
             </HStack>
 
             <Stack width="100%" gap="5px" mb="2.2rem" mt="1rem">
-              <FormControl isInvalid={hasError("name")}>
+              <FormControl isInvalid={hasError<IFormKeys>("name", errors)}>
                 <InputCustom
                   labelname="Nome do Usuário"
                   id="name"
@@ -215,7 +207,7 @@ export function ModalRegister(): JSX.Element {
                 )}
               </FormControl>
 
-              <FormControl isInvalid={hasError("email")}>
+              <FormControl isInvalid={hasError<IFormKeys>("email", errors)}>
                 <InputCustom
                   labelname="E-mail"
                   id="email"
@@ -229,7 +221,7 @@ export function ModalRegister(): JSX.Element {
                 )}
               </FormControl>
 
-              <FormControl isInvalid={hasError("password")}>
+              <FormControl isInvalid={hasError<IFormKeys>("password", errors)}>
                 <InputCustom
                   labelname="Senha"
                   id="password"
